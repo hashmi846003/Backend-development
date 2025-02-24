@@ -31,4 +31,5 @@ type Transfer struct {
 	// must be positive
 	Amount    int64     `json:"amount"`
 	CreatedAt time.Time `json:"created_at"`
+	ID        int32     `json:"id"`
 }
