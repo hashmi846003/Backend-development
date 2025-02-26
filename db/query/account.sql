@@ -20,7 +20,7 @@ LIMIT $1 OFFSET $2;
 UPDATE accounts
 SET balance=$2
 WHERE id=$1
-RETURNING *;
+RETURNING id,owner,balance,currency,created_at;
 -- name: DeleteAccount :exec
 DELETE FROM accounts
 where id=$1;

@@ -1,4 +1,3 @@
 DROP TABLE IF EXISTS entries;
 DROP TABLE IF EXISTS transfers;
 DROP TABLE IF EXISTS accounts;
-ALTER TABLE transfers DROP COLUMN id;
