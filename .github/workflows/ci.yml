@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Use the "postgres" hostname to point to the service container
+      DB_SOURCE: "postgresql://root:secret@postgres:5432/simple_bank?sslmode=disable"
     services:
       postgres:
         image: postgres:latest
@@ -27,8 +30,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Wait for Postgres to be ready
+        run: |
+          until pg_isready -h postgres -p 5432 -U root; do
+            sleep 1;
+          done
+        env:
+          PGPASSWORD: secret
+
       - name: Run migrations
-        run: migrate -path db/migration -database "postgresql://root:secret@postgres:5432/simple_bank?sslmode=disable" -verbose up  
+        run: migrate -path db/migration -database "$DB_SOURCE" -verbose up  
 
       - name: Set up Go
         uses: actions/setup-go@v4
